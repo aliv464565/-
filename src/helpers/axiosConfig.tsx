@@ -1,3 +1,4 @@
+import { BASE_URL_API } from '@/libs/constanst';
 import { authOptions } from '@/libs/styles/auth';
 import axios from 'axios';
 import { getServerSession } from 'next-auth';
@@ -9,7 +10,7 @@ declare module 'axios' {
     }
 }
 const axiosConfig = axios.create({
-    baseURL: 'http://192.168.1.103:85/api',
+    baseURL: BASE_URL_API,
     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
 });
 const getToken = async (context?: boolean) => {

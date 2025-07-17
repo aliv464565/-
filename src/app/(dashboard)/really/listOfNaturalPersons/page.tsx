@@ -1,11 +1,13 @@
 'use client';
 import CreateTable from '@/components/TemplateTable/Table';
+import { BASE_URL_API_USER } from '@/libs/constanst';
 import { Avatar, Box, TableCell, TableRow } from '@mui/material';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 
 export default function ListOfNaturalPersons() {
     const session = useSession();
+    console.log(session);
     function RowBodyTable(item: {
         image?: string;
         first_name: string;
@@ -39,7 +41,7 @@ export default function ListOfNaturalPersons() {
                 create: session?.data?.permissions.includes('user_create'),
                 update: session?.data?.permissions.includes('user_edit'),
             }}
-            api="http://192.168.1.103:85/api/admin/membership/core/user"
+            api={BASE_URL_API_USER}
             baseRouter="/really/listOfNaturalPersons"
             requestKey="tableListOfNaturalPersons"
             rowBody={RowBodyTable}

@@ -16,6 +16,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import ButtonBack from '@/components/Button/ButtonBack';
 import { useCrodItem, useGetDataSelector } from '@/hooks/getDataTable';
+import { BASE_URL_API_ORGANIZATION } from '@/libs/constanst';
 
 interface DataType {
     name: string;
@@ -88,11 +89,11 @@ export function FormActionsOrganization({
     const { data: DataOptiensSelected = { data: [{ name: '' }] }, isLoading } = useGetDataSelector({
         title: 'organizationSelectEdorganizationType',
         search: debouncedValue,
-        api: 'http://192.168.1.103:85/api/admin/membership/base/select/organization',
+        api:BASE_URL_API_ORGANIZATION,
     });
 
     const { mutate } = useCrodItem({
-        api: 'http://192.168.1.103:85/api/admin/membership/core/organization',
+        api: BASE_URL_API_ORGANIZATION,
         requestKey: 'organization',
         id: data?.id,
         status: status,

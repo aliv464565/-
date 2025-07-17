@@ -1,6 +1,7 @@
 'use client';
 
 import CreateTable from '@/components/TemplateTable/Table';
+import { URL_API_PERMISSION } from '@/libs/constanst';
 import { Chip, TableCell, TableRow } from '@mui/material';
 
 export default function Permissions() {
@@ -24,7 +25,7 @@ export default function Permissions() {
 
     return (
         <CreateTable
-            api="http://192.168.1.103:85/api/admin/membership/core/permission"
+            api={URL_API_PERMISSION}
             baseRouter="/admin/permissions"
             requestKey="tablePermissions"
             rowBody={RowBodyTable}

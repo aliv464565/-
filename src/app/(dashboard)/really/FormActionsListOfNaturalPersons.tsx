@@ -23,6 +23,7 @@ import persian_fa from 'react-date-object/locales/persian_fa';
 import DateObject from 'react-date-object';
 import { useCrodItem, useGetDataItem as useGetDataSelector } from '@/hooks/getDataTable';
 import ButtonBack from '@/components/Button/ButtonBack';
+import { BASE_URL_API_USER } from '@/libs/constanst';
 
 // Types
 interface DataType {
@@ -72,7 +73,6 @@ interface OptionType {
 }
 
 // Constants
-const API_BASE_URL = 'http://192.168.1.103:85/api/admin/membership/core/user';
 const DEFAULT_AVATAR = '/images/man-user-circle-icon.png';
 
 const DIGITS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
@@ -102,14 +102,14 @@ export function FormActionsListOfNaturalPersons({ data, status, children }: Form
     const [isErrors, setIsErrors] = useState<DataSelectedType>();
 
     const { mutate } = useCrodItem({
-        api: API_BASE_URL,
+        api: BASE_URL_API_USER,
         requestKey: 'tableListOfNaturalPersons',
         id: data?.id,
         status: status,
     });
 
     const { isLoading, data: optionsSelected } = useGetDataSelector({
-        api: `${API_BASE_URL}/upsert-data`,
+        api: `${BASE_URL_API_USER}/upsert-data`,
         title: 'optionsSelectFormData',
     });
 

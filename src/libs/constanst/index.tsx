@@ -1,0 +1,10 @@
+export const APP_NAME = process.env.NEXT_PUBLIC_NAME || 'test';
+export const BASE_URL_API = process.env.PASE_URL_API || 'http://192.168.1.103:85/api';
+export const URL_API_PERMISSION = BASE_URL_API + '/admin/membership/core/permission';
+export const BASE_URL_API_USER = BASE_URL_API + '/admin/membership/core/user';
+export const BASE_URL_API_ROLSE = BASE_URL_API + '/admin/membership/core/role';
+export const BASE_URL_API_ORGANIZATION = BASE_URL_API + '/admin/membership/core/organization';
+export const BASE_URL_API_SEX = BASE_URL_API + '/admin/membership/base/sex';
+export const BASE_URL_API_MARITAL = BASE_URL_API + '/admin/membership/base/marital';
+export const BASE_URL_API_RELIGION = BASE_URL_API + '/admin/membership/base/religion';
+export const BASE_URL_API_AUTH = BASE_URL_API + '/auth/user';

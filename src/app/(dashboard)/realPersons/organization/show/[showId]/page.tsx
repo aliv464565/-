@@ -1,5 +1,6 @@
 import ButtonBack from '@/components/Button/ButtonBack';
 import axiosConfig from '@/helpers/axiosConfig';
+import { BASE_URL_API_ORGANIZATION } from '@/libs/constanst';
 import {
     Box,
     Button,
@@ -16,7 +17,7 @@ import Image from 'next/image';
 export default async function Show({ params }: { params: Promise<{ showId: string }> }) {
     const { showId } = await params;
     const responseDataUpdate = await axiosConfig.get(
-        'http://192.168.1.103:85/api/admin/membership/core/organization/show/' + showId,
+        `${BASE_URL_API_ORGANIZATION}/show/${showId}`,
         { nextContext: true }
     );
 

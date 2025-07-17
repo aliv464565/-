@@ -6,6 +6,7 @@ import ButtonBack from '@/components/Button/ButtonBack';
 
 // درخواست برای عملیات ها مانند ایجاد و بروز رسانی
 import { useCrodItem } from '@/hooks/getDataTable';
+import { BASE_URL_API_ROLSE } from '@/libs/constanst';
 
 // mui
 import {
@@ -49,7 +50,7 @@ export default function FromActionsRolse({
 }) {
     //عملیات های ایجاد و بروز رسانی رو انجام میده
     const { mutate } = useCrodItem({
-        api: 'http://192.168.1.103:85/api/admin/membership/core/role',
+        api: BASE_URL_API_ROLSE,
         requestKey: 'tableRols',
         id: dataShow?.id,
         status,

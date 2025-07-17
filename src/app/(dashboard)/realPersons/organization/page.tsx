@@ -1,5 +1,6 @@
 'use client';
 import CreateTable from '@/components/TemplateTable/Table';
+import { BASE_URL_API_ORGANIZATION } from '@/libs/constanst';
 import { TableCell, TableRow } from '@mui/material';
 import { useSession } from 'next-auth/react';
 interface DataType {
@@ -32,7 +33,7 @@ export default function Organization() {
                 create: session?.data?.permissions.includes('organization_create'),
                 update: session?.data?.permissions.includes('organization_edit'),
             }}
-            api="http://192.168.1.103:85/api/admin/membership/core/organization"
+            api={BASE_URL_API_ORGANIZATION}
             baseRouter="/realPersons/organization"
             requestKey="tableRealPersons"
             rowBody={RowBodyTable}

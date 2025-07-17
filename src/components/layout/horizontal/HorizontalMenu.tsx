@@ -27,19 +27,9 @@ import verticalMenuSectionStyles from '@/@core/styles/vertical/menuSectionStyles
 // Menu Data Imports
 // import menuData from '@/data/navigation/horizontalMenuData'
 
-import {
-    BuildingLibraryIcon,
-    CircleStackIcon,
-    Cog8ToothIcon,
-    CubeIcon,
-    KeyIcon,
-    QueueListIcon,
-    UserGroupIcon,
-    UserIcon,
-    UserPlusIcon,
-    WindowIcon,
-} from '@heroicons/react/24/outline';
 import { ChevronRightIcon, MinusCircleIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
+import { colunm } from '../vertical/VerticalMenu';
+import { useSession } from 'next-auth/react';
 
 type RenderExpandIconProps = {
     level?: number;
@@ -62,7 +52,14 @@ const RenderVerticalExpandIcon = ({ open, transitionDuration }: RenderVerticalEx
     </StyledVerticalNavExpandIcon>
 );
 
+interface CustomSession {
+    data: {
+        permissions: string[];
+        // یا permission: string[];
+    } | null;
+}
 const HorizontalMenu = () => {
+    const session = useSession() as CustomSession;
     // Hooks
     const verticalNavOptions = useVerticalNav();
     const theme = useTheme();
@@ -100,47 +97,30 @@ const HorizontalMenu = () => {
                     menuSectionStyles: verticalMenuSectionStyles(verticalNavOptions, theme),
                 }}
             >
-                {' '}
-                <SubMenu label="اطلاعات پایه " icon={<CircleStackIcon width={20} />}>
-                    <MenuItem href={`/baseInformatien/gender`} icon={<UserIcon width={20} />}>
-                        جنسیت ها
-                    </MenuItem>
-
-                    <MenuItem
-                        href={`/baseInformatien/religion`}
-                        icon={<BuildingLibraryIcon width={20} />}
-                    >
-                        دین و مذهب ها
-                    </MenuItem>
-
-                    <MenuItem href={`/baseInformatien/marital`} icon={<UserPlusIcon width={20} />}>
-                        وضعیت تاهل
-                    </MenuItem>
-                </SubMenu>
-                <SubMenu label="اشخاص حقیقی " icon={<UserGroupIcon width={20} />}>
-                    <MenuItem
-                        href={`/really/listOfNaturalPersons`}
-                        icon={<QueueListIcon width={20} />}
-                    >
-                        فهرست
-                    </MenuItem>
-                </SubMenu>
-                <SubMenu label=" تنظیمات " icon={<Cog8ToothIcon width={20} />}>
-                    <MenuItem href={`/admin/permissions`} icon={<KeyIcon width={20} />}>
-                        مجوز ها
-                    </MenuItem>
-                    <MenuItem href={`/admin/roles`} icon={<WindowIcon width={20} />}>
-                        نقش ها
-                    </MenuItem>
-                </SubMenu>
-                <SubMenu label="اشخاص پایه " icon={<CubeIcon width={20} />}>
-                    <MenuItem
-                        href={`/realPersons/organization`}
-                        icon={<QueueListIcon width={20} />}
-                    >
-                        فهرست
-                    </MenuItem>
-                </SubMenu>
+                {colunm.map(
+                    item =>
+                        session.data?.permissions.filter(pers => item.permission.includes(pers))
+                            .length === item.children.length && (
+                            <>
+                                <SubMenu label={item.label} icon={item.icon}>
+                                    {item.children.map(
+                                        (chi, index) =>
+                                            session?.data?.permissions.includes(
+                                                item.permission[index]
+                                            ) && (
+                                                <MenuItem
+                                                    key={chi.url}
+                                                    href={chi.url}
+                                                    icon={chi.icon}
+                                                >
+                                                    {chi.label}
+                                                </MenuItem>
+                                            )
+                                    )}
+                                </SubMenu>
+                            </>
+                        )
+                )}{' '}
             </Menu>
         </HorizontalNav>
     );

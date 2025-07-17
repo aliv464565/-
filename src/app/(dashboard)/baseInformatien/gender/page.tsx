@@ -1,5 +1,6 @@
 'use client';
 import CreateTable from '@/components/TemplateTable/TableModal';
+import { BASE_URL_API_SEX } from '@/libs/constanst';
 import { TableCell, TableRow } from '@mui/material';
 import { useSession } from 'next-auth/react';
 
@@ -23,7 +24,7 @@ export default function Gender() {
                 create: session?.data?.permissions.includes('sex_create'),
                 update: session?.data?.permissions.includes('sex_edit'),
             }}
-            api="http://192.168.1.103:85/api/admin/membership/base/sex"
+            api={BASE_URL_API_SEX}
             requestKey="tableGender"
             rowBody={RowBodyTable}
         >

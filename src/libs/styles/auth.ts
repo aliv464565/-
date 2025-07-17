@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { NextAuthOptions, User } from 'next-auth';
 import CredentialProvider from 'next-auth/providers/credentials';
+import { BASE_URL_API } from '../constanst';
 interface user {
     id: number;
     image: null | string;
@@ -42,7 +43,7 @@ export const authOptions: NextAuthOptions = {
                 };
                 try {
                     const res = await axios.post(
-                        process.env.BASE_URL_API + '/api/auth/login',
+                        `${BASE_URL_API}/auth/login`,
                         {
                             username,
                             password,

@@ -1,6 +1,7 @@
 import CustomTextField from '@/@core/components/mui/TextField';
 import ButtonBack from '@/components/Button/ButtonBack';
 import axiosConfig from '@/helpers/axiosConfig';
+import { BASE_URL_API_ROLSE } from '@/libs/constanst';
 import { Card, Checkbox, FormControlLabel, Grid2, Stack, Typography } from '@mui/material';
 type DataType = {
     name: string;
@@ -8,14 +9,10 @@ type DataType = {
 }[];
 export default async function Show({ params }: { params: Promise<{ showId: string }> }) {
     const { showId } = await params;
-    const data = await axiosConfig.get(
-        'http://192.168.1.103:85/api/admin/membership/core/role/upsert-data',
-        { nextContext: true }
-    );
-    const ShowData = await axiosConfig.get(
-        'http://192.168.1.103:85/api/admin/membership/core/role/show/' + showId,
-        { nextContext: true }
-    );
+    const data = await axiosConfig.get(`${BASE_URL_API_ROLSE}/upsert-data`, { nextContext: true });
+    const ShowData = await axiosConfig.get(`${BASE_URL_API_ROLSE}/show/${showId}`, {
+        nextContext: true,
+    });
     return (
         <form>
             <Card className="w-full px-6 py-5">

@@ -1,5 +1,6 @@
 'use client';
 import CreateTable from '@/components/TemplateTable/TableModal';
+import { BASE_URL_API_RELIGION } from '@/libs/constanst';
 import { TableCell, TableRow } from '@mui/material';
 import { useSession } from 'next-auth/react';
 
@@ -23,7 +24,7 @@ export default function Religion() {
                 create: session?.data?.permissions.includes('religion_create'),
                 update: session?.data?.permissions.includes('religion_edit'),
             }}
-            api="http://192.168.1.103:85/api/admin/membership/base/religion"
+            api={BASE_URL_API_RELIGION}
             requestKey="tableReligion"
             rowBody={RowBodyTable}
         >

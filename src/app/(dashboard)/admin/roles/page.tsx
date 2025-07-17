@@ -5,6 +5,7 @@ import { TableCell, TableRow } from '@mui/material';
 
 import CreateTable from '@/components/TemplateTable/Table';
 import { useSession } from 'next-auth/react';
+import { BASE_URL_API_ROLSE } from '@/libs/constanst';
 
 type DataType = {
     title: string;
@@ -14,6 +15,7 @@ type DataType = {
 
 export default function Roles() {
     const session = useSession();
+    console.log(session);
     function RowBodyTable(item: DataType) {
         return (
             <>
@@ -30,7 +32,7 @@ export default function Roles() {
                 create: session?.data?.permissions.includes('role_create'),
                 update: session?.data?.permissions.includes('role_edit'),
             }}
-            api="http://192.168.1.103:85/api/admin/membership/core/role"
+            api={BASE_URL_API_ROLSE}
             baseRouter="/admin/roles"
             requestKey="tableRols"
             rowBody={RowBodyTable}

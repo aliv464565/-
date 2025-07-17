@@ -1,3 +1,4 @@
+'use client';
 // MUI Imports
 import { useTheme } from '@mui/material/styles';
 
@@ -37,6 +38,8 @@ import {
     WindowIcon,
 } from '@heroicons/react/24/outline';
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
+import { useSession } from 'next-auth/react';
+// import { useSession } from 'next-auth/react';
 
 type RenderExpandIconProps = {
     open?: boolean;
@@ -48,13 +51,86 @@ type Props = {
     scrollMenu: (container: any, isPerfectScrollbar: boolean) => void;
 };
 
+interface CustomSession {
+    data: {
+        permissions: string[];
+        // یا permission: string[];
+    } | null;
+}
+
 const RenderExpandIcon = ({ open, transitionDuration }: RenderExpandIconProps) => (
     <StyledVerticalNavExpandIcon open={open} transitionDuration={transitionDuration}>
         <ChevronRightIcon width={20} />
     </StyledVerticalNavExpandIcon>
 );
-
+export const colunm = [
+    {
+        label: 'اطلاعات پایه ',
+        icon: <CircleStackIcon width={20} />,
+        permission: ['sex_index', 'religion_index', 'marital_index'],
+        children: [
+            {
+                label: 'جنسیت ها',
+                url: '/baseInformatien/gender',
+                icon: <CircleStackIcon width={20} />,
+            },
+            {
+                label: 'دین و مذهب ها ',
+                url: '/baseInformatien/religion',
+                icon: <BuildingLibraryIcon width={20} />,
+            },
+            {
+                label: 'وضعیت تاهل',
+                url: '/baseInformatien/marital',
+                icon: <UserPlusIcon width={20} />,
+            },
+        ],
+    },
+    {
+        label: 'اشخاص حقیقی ',
+        icon: <UserGroupIcon width={20} />,
+        permission: ['user_index'],
+        children: [
+            {
+                label: 'فهرست',
+                url: '/really/listOfNaturalPersons',
+                icon: <QueueListIcon width={20} />,
+            },
+        ],
+    },
+    {
+        label: ' تنظیمات ',
+        icon: <Cog8ToothIcon width={20} />,
+        permission: ['permission_index', 'role_index'],
+        children: [
+            {
+                label: 'مجوز ها',
+                url: `/admin/permissions`,
+                icon: <KeyIcon width={20} />,
+            },
+            {
+                label: 'نقش ها',
+                url: '/admin/roles',
+                icon: <WindowIcon width={20} />,
+            },
+        ],
+    },
+    {
+        label: 'اشخاص پایه',
+        icon: <CubeIcon width={20} />,
+        permission: ['organization_index'],
+        children: [
+            {
+                label: 'فهرست',
+                url: '/realPersons/organization',
+                icon: <KeyIcon width={20} />,
+            },
+        ],
+    },
+];
 const VerticalMenu = ({ scrollMenu }: Props) => {
+    const session = useSession() as CustomSession;
+    // console.log(session.data?.permissions);
     // Hooks
     const theme = useTheme();
     const verticalNavOptions = useVerticalNav();
@@ -90,46 +166,36 @@ const VerticalMenu = ({ scrollMenu }: Props) => {
                 renderExpandedMenuItemIcon={{ icon: <CircleStackIcon width={20} /> }}
                 menuSectionStyles={menuSectionStyles(verticalNavOptions, theme)}
             >
-                <SubMenu label="اطلاعات پایه " icon={<CircleStackIcon width={20} />}>
-                    <MenuItem href={`/baseInformatien/gender`} icon={<UserIcon width={20} />}>
-                        جنسیت ها
-                    </MenuItem>
+                {colunm.map(item => {
+                    return (
+                        session.data?.permissions?.filter(pers => item.permission.includes(pers))
+                            .length === item.children.length && (
+                            <>
+                                <SubMenu label={item.label} icon={item.icon}>
+                                    {item.children.map((chi, index) => {
+                                        console.log(
+                                            session?.data?.permissions.includes(
+                                                item.permission[index]
+                                            ),
+                                            item,
+                                            item.permission[index]
+                                        );
 
-                    <MenuItem
-                        href={`/baseInformatien/religion`}
-                        icon={<BuildingLibraryIcon width={20} />}
-                    >
-                        دین و مذهب ها
-                    </MenuItem>
-
-                    <MenuItem href={`/baseInformatien/marital`} icon={<UserPlusIcon width={20} />}>
-                        وضعیت تاهل
-                    </MenuItem>
-                </SubMenu>
-                <SubMenu label="اشخاص حقیقی " icon={<UserGroupIcon width={20} />}>
-                    <MenuItem
-                        href={`/really/listOfNaturalPersons`}
-                        icon={<QueueListIcon width={20} />}
-                    >
-                        فهرست
-                    </MenuItem>
-                </SubMenu>
-                <SubMenu label=" تنظیمات " icon={<Cog8ToothIcon width={20} />}>
-                    <MenuItem href={`/admin/premissions`} icon={<KeyIcon width={20} />}>
-                        مجوز ها
-                    </MenuItem>
-                    <MenuItem href={`/admin/roles`} icon={<WindowIcon width={20} />}>
-                        نقش ها
-                    </MenuItem>
-                </SubMenu>
-                <SubMenu label="اشخاص پایه " icon={<CubeIcon width={20} />}>
-                    <MenuItem
-                        href={`/realPersons/organization`}
-                        icon={<QueueListIcon width={20} />}
-                    >
-                        فهرست
-                    </MenuItem>
-                </SubMenu>
+                                        return (
+                                            session?.data?.permissions.includes(
+                                                item.permission[index]
+                                            ) && (
+                                                <MenuItem href={chi.url} icon={chi.icon}>
+                                                    {chi.label}
+                                                </MenuItem>
+                                            )
+                                        );
+                                    })}
+                                </SubMenu>
+                            </>
+                        )
+                    );
+                })}
             </Menu>
         </ScrollWrapper>
     );

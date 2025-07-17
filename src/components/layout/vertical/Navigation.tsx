@@ -10,7 +10,6 @@ import Link from 'next/link';
 import { styled, useColorScheme, useTheme } from '@mui/material/styles';
 
 // Type Imports
-import type { Mode } from '@/@core/types';
 
 // Component Imports
 import VerticalNav, { NavHeader, NavCollapseIcons } from '@/@menu/vertical-menu';

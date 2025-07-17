@@ -1,5 +1,6 @@
 import ButtonBack from '@/components/Button/ButtonBack';
 import axiosConfig from '@/helpers/axiosConfig';
+import { BASE_URL_API_USER } from '@/libs/constanst';
 import {
     Alert,
     Avatar,
@@ -17,10 +18,9 @@ import Image from 'next/image';
 
 export default async function show({ params }: { params: Promise<{ ShowId: string }> }) {
     const { ShowId } = await params;
-    const data = await axiosConfig.get(
-        'http://192.168.1.103:85/api/admin/membership/core/user/show/' + ShowId,
-        { nextContext: true }
-    );
+    const data = await axiosConfig.get(`${BASE_URL_API_USER}/show/${ShowId}`, {
+        nextContext: true,
+    });
     if (!data) return <Alert> خطا در برقراری ارتباط دوباره تلاش کنید</Alert>;
     return (
         <form>
